@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Travel The World With Me! - Carolyn's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+     <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="background.html">About Me</a></li>
+          <li><a href="professional.html">My Professional Page</a></li>
+          <li><a href="world.html">Travel the World With Me!</a></li>
+          <p id="date" style="float: right; padding-right: 3%"></p>
+          <script type="text/javascript"> showDate(); </script>
+      </ul>
+    <div id="content">
+      <h2>My Travel Experiences</h2>
+      <p>Another thing I love to do is travel. I love meeting new people, learning about their cultures, trying new foods, and also collecting souvenirs from all the places I have been.</p>
+      <br>
+      <p>I love to photograph my experiences of the places that I visit, as a way of keeping the experience with me.</p>
+      <br>
+      <p>Click on the location icons on this map to find out more about my time in that specific place, and see some pictures as well!</br>
+      <img src="images/map1.jpg" alt="Global Map" usemap="#workmap" width="1162" height="675"/>
+      <map name="workmap">
+          <area shape="rect" coords="97, 118, 140, 180" onclick="displayExperience()" class="dropbutton">
+      </map>
+        <div class="dropdown">
+              <div id="TravelExp" class="dropdown-content">
+                  <h3>California</h3>
+                  <p> I came to California for the first time in 2019, when I first moved to the US to go to Stanford. </p>
+                  <p>There are may things I love about Palo Alto, but my favorite thing is when the entirety of University Avenue is decorated for the festive season in the winter. </p>
+                  <p>Other places I have visited in California which I loved are the Golden Gate Bridge in San Francisco and Pier 39</p>
+                </div>
+          </div>
+    </div>
+  </body>
+</html>
