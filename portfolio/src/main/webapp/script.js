@@ -26,3 +26,11 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+// Show current date and time on every page
+function showDate() {
+    const date = new Date();
+    const dateContainer = document.getElementById("date");
+    dateContainer.style.color = "white";
+    dateContainer.innerHTML = date;
+}   
