@@ -36,10 +36,10 @@ h1 before {
 h2 {
     font-size: 70px;
     color: white;
-    text-align: center;
 }
 
 p {
+    text-align: left;
     color: white;
 }
 
@@ -50,6 +50,7 @@ p a {
 h3 {
     font-size: 30px;
     color: white;
+    text-align: left;
     padding-top: 1%;
 }
 
@@ -83,10 +84,13 @@ li a:hover {
 
 #content {
     background-color: rgba(0, 0, 0, 0.918);
-    margin-left: 15%;
-    margin-right: 15%; 
+    align-content: center;
+    margin-left:7%;
+    margin-right: 7%; 
     margin-top: 2%;
-    height: 100vh;
+    height: 100%;
+    background-position: fixed;
+    text-align: center;
     padding: 3%;
     padding-top: 1.5%;
 }
@@ -146,6 +150,10 @@ img {vertical-align: middle;}
   border-radius: 3px 0 0 3px;
 }
 
+.prev {
+  left: 0;
+  border-radius: 3px 0 0 3px;
+}
 /* On hover, add a black background color with a little bit see-through */
 .prev:hover, .next:hover {
   background-color: rgba(0,0,0,0.8);
