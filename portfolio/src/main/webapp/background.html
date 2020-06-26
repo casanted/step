@@ -10,7 +10,6 @@
      <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="background.html">About Me</a></li>
-          <li><a href="funthings.html">Some Things I like to do!</a></li>
           <li><a href="professional.html">My Professional Page</a></li>
           <li><a href="world.html">Travel the World With Me!</a></li>
           <p id="date" style="float: right; padding-right: 3%"></p>
@@ -18,13 +17,55 @@
       </ul>
     <div id="content">
       <h2>About Me</h2>
-      <p>My name is Carolyn Akua Asante-Dartey (born May 24, 2000) and I am from Accra, Ghana. I am an international student at Stanford University, where I am a rising sophomore. </p>
-      <br>
-      <p>I come from a family of 5</p>
-      <img src="images/IMG_6226.jpg" width="300" height = "400"/>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+      <img src="images/OfficialMe.jpg" width="250" height = "340" class="textwrap"/>
+      <p>My name is Carolyn Akua Asante-Dartey (born May 24, 2000) and I use she/her pronouns. I come from Accra, Ghana. I am an international student at Stanford University, where I am a rising sophomore, 
+          studying Computer Science. Some things that I like to do are reading, swimming, cooking, and watching movies and TV shows. I love to listen to music, and I love to challenge myself by learning new skills. 
+          I attended Alsyd Academy for primary school, Wesley Girls High School for my first two years of high school, and Lincoln Community School, where I got my IB diploma. In school, my favourite classes are usually STEM classes.
+          To find out more about my professional life, click <a href="professional.html">here</a>! 
+          <br>
+          <br>
+          I come from a family of 5, I have a younger brother and a younger sister. I speak two languages; English, and my local language Twi. Back home, I was a member of the church band and
+          I played the saxophone at my church every weekend. Some genres of music I enjoy are AfroBeats, RnB, pop, hip hop and jazz music. I love to draw and design as well.
+          Some communities at Stanford that I am a part of include the Stanford African Students Association, where I work as the Financial Officer,  the Society of Black Scientists and Engineers and Women in Computer Science. 
+          I also love to travel with my friends and family. Click <a href="world.html">here</a> to find out more about my travel adventures!
+           <br>
+           <br>
+          Some of my favorite TV Shows are Prison Break, Suits, How to Get Away With Murder, All American, and Merlin. I am a huge fan of the Avengers and I love to go for concerts. 
+          I like to meeet new people, make new friends and learn about theire backgrounds. I believe every person is unique and has a special element. <br> </p> 
+
+
+        <div class="slideshow-container">
+
+            <div class="mySlides fade">
+                <img src="images/IMG_0141.jpg" style="width:100%" class="cropped">
+                <div class="text">Street Art in Accra, Ghana</div>
+            </div>
+
+            <div class="mySlides fade">
+                <img src="images/IMG_3919.jpg" style="width:100%" class="cropped">
+                <div class="text">At Auschwitz, Poland</div>
+            </div>
+
+            <div class="mySlides fade">
+                <img src="images/IMG_0137.jpg" style="width:100%" class="cropped">
+                <div class="text">A ring of trees I discovered in Pescadero, California</div>
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        
+        <script type="text/javascript"> 
+            var slideIndex = 1;
+            showSlides(slideIndex);
+        </script>
+
+        </div>
+        <br>
+        <div style="text-align:center">
+            <span class="dot"></span> 
+            <span class="dot"></span> 
+            <span class="dot"></span> 
+        </div>
     </div>
   </body>
 </html>

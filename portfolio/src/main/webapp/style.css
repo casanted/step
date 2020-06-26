@@ -1,24 +1,50 @@
+* {
+    box-sizing: border-box;
+}
+
 html {
     background: url(images/try.gif);
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 }
 
+@keyframes animate {
+    from {
+        font-size: 600%;
+        opacity: 0;
+    }
+    to {
+        font-size: 810%;
+        opacity: 1;
+    }
+}
 
 h1 {
-    font-size: 100px;
+    text-align: center;
+    font-size: 130px;
     color: white;
-    padding-top: 12%
+    padding-top: 12%;
+    animation: animate 3s;
+}
+
+h1 before {
+    content: "";
 }
 
 h2 {
-    font-size: 50px;
+    font-size: 70px;
     color: white;
-    padding-top: 1.75%
+    text-align: center;
 }
 
 p {
     color: white;
+}
+
+p a {
+    color: rgb(201, 93, 201);
 }
 
 h3 {
@@ -56,12 +82,13 @@ li a:hover {
   }
 
 #content {
-  align-content: center;
-  text-align: center; 
-}
-
-#greeting-container {
-  margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.918);
+    margin-left: 15%;
+    margin-right: 15%; 
+    margin-top: 2%;
+    height: 100vh;
+    padding: 3%;
+    padding-top: 1.5%;
 }
 
 .dropdown {
@@ -71,16 +98,107 @@ li a:hover {
 
 .dropdown-content {
     position: initial;
+    overflow: auto;
     display: none;
     background-color: rgba(0, 0, 0, 0.836);
-    min-width: 250px;
+    padding: 3%;
+    width: 750px;
     z-index: 1;
 }
 
 .show {display: block;}
 
 .textwrap {
-    float: left;
-    margin-bottom: 10px;
-    margin-left:10px;
+    float: right;
+    margin-bottom: 5%;
+    margin-left: 5%;
+}
+
+.mySlides {display: none;}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: white;
+  font-size: 20px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+.cropped {
+    width: 500px; /* width of container */
+    height: 500px; /* height of container */
+    object-fit: cover;
 }

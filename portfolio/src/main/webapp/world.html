@@ -21,18 +21,89 @@
       <br>
       <p>I love to photograph my experiences of the places that I visit, as a way of keeping the experience with me.</p>
       <br>
-      <p>Click on the location icons on this map to find out more about my time in that specific place, and see some pictures as well!</br>
+      <p>Click on the location icons on this map to find out more about my time in that specific place! Once you are finished with an experience, click anywhere outside the 
+          locations to close the experience before moving onto the next one.
+          <br>
+          <br>
+      </p>
       <img src="images/map1.jpg" alt="Global Map" usemap="#workmap" width="1162" height="675"/>
       <map name="workmap">
-          <area shape="rect" coords="97, 118, 140, 180" onclick="displayExperience()" class="dropbutton">
+          <area shape="rect" coords="97, 118, 140, 180" onclick="displayCalifornia()" class="dropbutton">
+          <area shape="rect" coords="244, 118, 285, 175" onclick="displayEastCoast()" class="dropbutton">
+          <area shape="rect" coords="503, 261, 540, 318" onclick="displayGhana()" class="dropbutton">
+          <area shape="rect" coords="538, 163, 570, 215" onclick="displayTunis()" class="dropbutton">
+          <area shape="rect" coords="621, 278, 657, 328" onclick="displayRwanda()" class="dropbutton">
+          <area shape="rect" coords="582, 412, 621, 469" onclick="displaySA()" class="dropbutton">
+          <area shape="rect" coords="502, 78, 533, 124" onclick="displayUK()" class="dropbutton">
+          <area shape="rect" coords="568, 81, 599, 136" onclick="displayPoland()" class="dropbutton">
+          <area shape="rect" coords="859, 230, 890, 278" onclick="displayThailand()" class="dropbutton">
+          <area shape="rect" coords="601, 95, 629, 141" onclick="displayRomania()" class="dropbutton">
       </map>
         <div class="dropdown">
-              <div id="TravelExp" class="dropdown-content">
-                  <h3>California</h3>
+              <div id="California" class="dropdown-content">
+                  <h3>California, USA</h3>
                   <p> I came to California for the first time in 2019, when I first moved to the US to go to Stanford. </p>
-                  <p>There are may things I love about Palo Alto, but my favorite thing is when the entirety of University Avenue is decorated for the festive season in the winter. </p>
+                  <p>There are many things I love about Palo Alto, but my favorite thing is when the entirety of University Avenue is decorated for the festive season in the winter. </p>
                   <p>Other places I have visited in California which I loved are the Golden Gate Bridge in San Francisco and Pier 39</p>
                 </div>
+             <div id="EastCoast" class="dropdown-content">
+                  <h3>The East Coast, USA</h3>
+                  <p> On the East Coast, I have been to Connecticut, Boston, Massachussets and New York, to visit family and friends.
+                  My favourite travel experiences from the East Coast are going to a Six Flags amusement Park in New York, the New England Aquarium, and Charles River!</p>
+                </div>
+             <div id="Ghana" class="dropdown-content">
+                  <h3>Accra, Ghana</h3>
+                  <p> I was born and raised in Accra. Over the years, I have had the opportunity to go to some other pparts of the country such
+                      as Kumasi, the Eastern Region and the Central Region. Ghana has a vibrant culture, vibrant people, and the best food. My favorite experiences in Accra 
+                      are going to the beach, as well as visiting resorts like the Aqua Safari Resort. 
+                  </p>
+             </div>
+             <div id="Tunis" class="dropdown-content">
+                  <h3>Tunis, Tunisia</h3>
+                  <p> I visited Tunisia when I was 8 to see some family. Unfortunately, at the time, I was too young to have a phone, and so do not have any photos. 
+                      I do remember that we visited the zoo and one of the zoo keepers put me on a camel without my permission for a picture. 
+                  </p>
+             </div>
+              <div id="Rwanda" class="dropdown-content">
+                  <h3>Kigali, Rwanda</h3>
+                  <p> I visited Kigali with the Human Rights Club of my highschool as part of a project we were undertaking regarding the Rwandan Genocide of 1994. 
+                      I addition to the breathtaking museaums and memmorial grounds that we saw, we also had the chance to experience Rwandan culture in the form of music and dance, 
+                      as well as visit the astonishing Inema Arts Center. 
+                  </p>
+             </div>
+              <div id="SA" class="dropdown-content">
+                  <h3>Johannesburg, South Africa</h3>
+                  <p> I visited South Africa for a Model UN Conference. Outside of the conference, my friends and I got to go to museums dedicated towards 
+                      educating people about the Apartheid. We also got the chance to see the city's beautiful scenery, as well as visit the commercial center of the city.
+                  </p>
+             </div>
+              <div id="UK" class="dropdown-content">
+                  <h3>Bath, United Kingdom</h3>
+                  <p> Bath is a very unique town. During the time I spent in this city, I visited the city center, a buzzing hub where most of the activity of the city takes place. 
+                      One of the best travel experiences I have had was going to the the Longleat Animal Park. In addition to seeing a lot of cool wild animals, and driving 
+                      in a safari with monkeys hanging on the cars, we also got to explore an ancient castle!  </p>
+             </div>
+              <div id="Poland" class="dropdown-content">
+                  <h3>Krakow, Poland</h3>
+                  <p> I visited Krakow with the Human Rights Club of my high school. This is my most memorable travel experience. In Poland, we visited the aushwitz Concentration Camp, the 
+                      Jewish Quarter in Krakow, and other beautiful museums, to learn more about the Holocaust. On this trip, we also spent time in Amsterdam, Netherlands, and Berlin, Germany,
+                      visiting more museums, the Berlin Wall, and other historically significant locations.
+                  </p>
+             </div>
+              <div id="Thailand" class="dropdown-content">
+                  <h3>Chiang Mai, Thailand</h3>
+                  <p> One of my favorite travel experiences! In Thailand, some of my favorite experiences were visiting the Queen's Botanical Gardens, a tradtitional temple, and 
+                      an animal santuary where I saw people riding elephants! I loved experiencing the different delicacies of the people and watching their dances.
+                  </p>
+             </div>
+              <div id="Romania" class="dropdown-content">
+                  <h3>Cluj Napoca, Romania</h3>
+                  <p> One of the best travel experiences I have had yet! The city of Cluj has an ancient feel, all while having a vibrant modern section of the city 
+                      within a 15 minute drive. In Cluj, I visited many beautiful old churches, as well as other historically significant locations. We got to explore some ancient 
+                      castles in Alba Julia, and also visit Salina Turda, which is an old salt mine turned into an amusement park! (There is a whole amusement park about 20
+                      storeys underground!)
+                  </p>
+             </div>
           </div>
     </div>
   </body>
