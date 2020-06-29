@@ -76,7 +76,13 @@ li a {
 li a:hover {
   background-color: white;
   color: black;
-  }
+}
+
+#date {
+    color: white; 
+    float: right;
+    padding-right: 2%;
+}
 
 #content {
     background-color: rgba(0, 0, 0, 0.918);

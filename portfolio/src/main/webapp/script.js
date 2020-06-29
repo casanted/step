@@ -17,9 +17,12 @@
 function showDate() {
     const date = new Date();
     const dateContainer = document.getElementById("date");
-    dateContainer.style.color = "white";
     dateContainer.innerHTML = date;
 } 
+
+window.onload = (event) => {
+    showDate();
+}
 
 function displayCalifornia() {
     document.getElementById("California").classList.toggle("show");
@@ -61,12 +64,12 @@ function displayRomania() {
     document.getElementById("Romania").classList.toggle("show");
 }
 
+// Remove all dropdowns when a user clicks outside the map image
 window.onclick = function(event) {
   if (!event.target.matches('.dropbutton')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
+    const dropdowns = document.getElementsByClassName("dropdown-content");
+    for (let i = 0; i < dropdowns.length; i++) {
+      const openDropdown = dropdowns[i];
       if (openDropdown.classList.contains('show')) {
         openDropdown.classList.remove('show');
       }
@@ -96,4 +99,10 @@ function showSlides(n) {
   }
   slides[slideIndex-1].style.display = "block";  
   dots[slideIndex-1].className += " active";
+}
+
+function getMessage() {
+  fetch('/data').then(response => response.text()).then((quote) => {
+    document.getElementById('greeting').innerText = quote;
+  });
 }
