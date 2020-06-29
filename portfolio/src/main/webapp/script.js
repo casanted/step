@@ -21,6 +21,10 @@ function showDate() {
     dateContainer.innerHTML = date;
 } 
 
+window.onload = (event) => {
+    showDate();
+}
+
 function displayCalifornia() {
     document.getElementById("California").classList.toggle("show");
 }
@@ -61,6 +65,7 @@ function displayRomania() {
     document.getElementById("Romania").classList.toggle("show");
 }
 
+// Remove all dropdowns whenever the user clicks outside of the map image 
 window.onclick = function(event) {
   if (!event.target.matches('.dropbutton')) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
