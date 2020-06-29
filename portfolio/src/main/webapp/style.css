@@ -12,11 +12,11 @@ html {
 
 @keyframes animate {
     from {
-        font-size: 600%;
+        font-size: 100px;
         opacity: 0;
     }
     to {
-        font-size: 810%;
+        font-size: 130px;
         opacity: 1;
     }
 }
@@ -27,10 +27,6 @@ h1 {
     color: white;
     padding-top: 12%;
     animation: animate 3s;
-}
-
-h1 before {
-    content: "";
 }
 
 h2 {
