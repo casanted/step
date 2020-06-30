@@ -17,7 +17,6 @@
 function showDate() {
     const date = new Date();
     const dateContainer = document.getElementById("date");
-    dateContainer.style.color = "white";
     dateContainer.innerHTML = date;
 } 
 
@@ -78,12 +77,12 @@ window.onclick = function(event) {
   }
 }
 
-function slideRight(n) {
-  showSlides(slideIndex += n);
+function slideRight() {
+  showSlides(slideIndex += 1);
 }
 
-function slideLeft(n) {
-  showSlides(slideIndex -= n);
+function slideLeft() {
+  showSlides(slideIndex -= 1);
 }
 
 function currentSlide(n) {
@@ -107,5 +106,5 @@ function showSlides(n) {
 
 window.onload = (event) => {
     let slideIndex = 0;
-    showSlides(slideIndex);
+    showSlides(slideIndex + 1);
 }
