@@ -20,9 +20,9 @@ function showDate() {
     dateContainer.innerHTML = date;
 } 
 
-window.onload = (event) => {
+window.addEventListener('DOMContentLoaded', (event) => {
     showDate();
-}
+});
 
 function displayCalifornia() {
     document.getElementById("California").classList.toggle("show");
@@ -64,7 +64,8 @@ function displayRomania() {
     document.getElementById("Romania").classList.toggle("show");
 }
 
-// Remove all dropdowns whenever the user clicks outside of the map image 
+// Remove all dropdowns when a user clicks outside the map image
+
 window.onclick = function(event) {
   if (!event.target.matches('.dropbutton')) {
     const dropdowns = document.getElementsByClassName("dropdown-content");
@@ -92,8 +93,10 @@ function currentSlide(n) {
 function showSlides(n) {
   const slides = document.getElementsByClassName("mySlides");
   const dots = document.getElementsByClassName("dot");
+
+  slideIndex = n;
   if (n >= slides.length) {slideIndex = 0}    
-  if (n < 1) {slideIndex = slides.length - 1}
+  if (n < 0) {slideIndex = slides.length - 1}
   for (let i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";  
   }
@@ -104,7 +107,23 @@ function showSlides(n) {
   dots[slideIndex].className += " active";
 }
 
-window.onload = (event) => {
+window.addEventListener('DOMContentLoaded', (event) => {
     let slideIndex = 0;
-    showSlides(slideIndex + 1);
+    showSlides(slideIndex);
+});
+
+function getMessage() {
+  fetch('/data').then(response => response.json()).then((comment) => {
+
+    const commentElement = document.getElementById('greeting');
+    commentElement.innerHTML = '';
+    commentElement.appendChild(
+        createListElement(comments[0]));
+  });
+}
+
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }

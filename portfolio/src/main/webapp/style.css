@@ -37,8 +37,8 @@ h2 {
 }
 
 p {
-    text-align: left;
     color: white;
+    text-align: left;
 }
 
 p a {
@@ -91,7 +91,7 @@ li a:hover {
     background-color: rgba(0, 0, 0, 0.918);
     background-position: fixed;
     height: 100%;;
-    margin-left:7%;
+    margin-left: 7%;
     margin-right: 7%; 
     margin-top: 2%;
     padding: 3%;
@@ -216,5 +216,5 @@ img {vertical-align: middle;}
 .cropped {
     height: 500px; 
     object-fit: cover;
-    width: 100% 500px; 
+    width: 1000px; 
 }
