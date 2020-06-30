@@ -78,8 +78,12 @@ window.onclick = function(event) {
   }
 }
 
-function plusSlides(n) {
+function slideRight(n) {
   showSlides(slideIndex += n);
+}
+
+function slideLeft(n) {
+  showSlides(slideIndex -= n);
 }
 
 function currentSlide(n) {
@@ -89,14 +93,19 @@ function currentSlide(n) {
 function showSlides(n) {
   const slides = document.getElementsByClassName("mySlides");
   const dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = slides.length}
+  if (n >= slides.length) {slideIndex = 0}    
+  if (n < 1) {slideIndex = slides.length - 1}
   for (let i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";  
   }
   for (let i = 0; i < dots.length; i++) {
       dots[i].className = dots[i].className.replace(" active", "");
   }
-  slides[slideIndex-1].style.display = "block";  
-  dots[slideIndex-1].className += " active";
+  slides[slideIndex].style.display = "block";  
+  dots[slideIndex].className += " active";
+}
+
+window.onload = (event) => {
+    let slideIndex = 0;
+    showSlides(slideIndex);
 }

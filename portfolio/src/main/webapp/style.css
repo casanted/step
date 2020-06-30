@@ -181,6 +181,10 @@ img {vertical-align: middle;}
   background-color: #717171;
 }
 
+#dots {
+    text-align: center
+}
+
 /* Fading animation */
 .fade {
   animation-duration: 1.5s;
@@ -200,7 +204,7 @@ img {vertical-align: middle;}
 }
 
 .cropped {
-    height: 500px; /* height of container */
+    height: 500px; 
     object-fit: cover;
-    width: 500px; /* width of container */
+    width: 100% 500px; 
 }
