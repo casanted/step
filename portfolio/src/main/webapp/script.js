@@ -20,9 +20,9 @@ function showDate() {
     dateContainer.innerHTML = date;
 } 
 
-window.onload = (event) => {
+window.addEventListener('DOMContentLoaded', (event) => {
     showDate();
-}
+});
 
 function displayCalifornia() {
     document.getElementById("California").classList.toggle("show");
@@ -77,8 +77,12 @@ window.onclick = function(event) {
   }
 }
 
-function plusSlides(n) {
-  showSlides(slideIndex += n);
+function slideRight() {
+  showSlides(slideIndex += 1);
+}
+
+function slideLeft() {
+  showSlides(slideIndex -= 1);
 }
 
 function currentSlide(n) {
@@ -86,23 +90,38 @@ function currentSlide(n) {
 }
 
 function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
+  const slides = document.getElementsByClassName("mySlides");
+  const dots = document.getElementsByClassName("dot");
+  slideIndex = n;
+  if (n >= slides.length) {slideIndex = 0}    
+  if (n < 0) {slideIndex = slides.length - 1}
+  for (let i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";  
   }
-  for (i = 0; i < dots.length; i++) {
+  for (let i = 0; i < dots.length; i++) {
       dots[i].className = dots[i].className.replace(" active", "");
   }
-  slides[slideIndex-1].style.display = "block";  
-  dots[slideIndex-1].className += " active";
+  slides[slideIndex].style.display = "block";  
+  dots[slideIndex].className += " active";
 }
 
+window.addEventListener('DOMContentLoaded', (event) => {
+    let slideIndex = 0;
+    showSlides(slideIndex);
+});
+
 function getMessage() {
-  fetch('/data').then(response => response.text()).then((quote) => {
-    document.getElementById('greeting').innerText = quote;
+  fetch('/data').then(response => response.json()).then((comment) => {
+
+    const commentElement = document.getElementById('greeting');
+    commentElement.innerHTML = '';
+    commentElement.appendChild(
+        createListElement(comments[0]));
   });
+}
+
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
