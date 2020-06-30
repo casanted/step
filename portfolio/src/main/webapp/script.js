@@ -17,9 +17,12 @@
 function showDate() {
     const date = new Date();
     const dateContainer = document.getElementById("date");
-    dateContainer.style.color = "white";
     dateContainer.innerHTML = date;
 } 
+
+window.onload = (event) => {
+    showDate();
+}
 
 function displayCalifornia() {
     document.getElementById("California").classList.toggle("show");
@@ -61,12 +64,12 @@ function displayRomania() {
     document.getElementById("Romania").classList.toggle("show");
 }
 
+// Remove all dropdowns whenever the user clicks outside of the map image 
 window.onclick = function(event) {
   if (!event.target.matches('.dropbutton')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
+    const dropdowns = document.getElementsByClassName("dropdown-content");
+    for (let i = 0; i < dropdowns.length; i++) {
+      const openDropdown = dropdowns[i];
       if (openDropdown.classList.contains('show')) {
         openDropdown.classList.remove('show');
       }
@@ -74,8 +77,12 @@ window.onclick = function(event) {
   }
 }
 
-function plusSlides(n) {
-  showSlides(slideIndex += n);
+function slideRight() {
+  showSlides(slideIndex += 1);
+}
+
+function slideLeft() {
+  showSlides(slideIndex -= 1);
 }
 
 function currentSlide(n) {
@@ -83,17 +90,21 @@ function currentSlide(n) {
 }
 
 function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
+  const slides = document.getElementsByClassName("mySlides");
+  const dots = document.getElementsByClassName("dot");
+  if (n >= slides.length) {slideIndex = 0}    
+  if (n < 1) {slideIndex = slides.length - 1}
+  for (let i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";  
   }
-  for (i = 0; i < dots.length; i++) {
+  for (let i = 0; i < dots.length; i++) {
       dots[i].className = dots[i].className.replace(" active", "");
   }
-  slides[slideIndex-1].style.display = "block";  
-  dots[slideIndex-1].className += " active";
+  slides[slideIndex].style.display = "block";  
+  dots[slideIndex].className += " active";
+}
+
+window.onload = (event) => {
+    let slideIndex = 0;
+    showSlides(slideIndex + 1);
 }
