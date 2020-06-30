@@ -12,25 +12,99 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
-}
 
 // Show current date and time on every page
 function showDate() {
     const date = new Date();
     const dateContainer = document.getElementById("date");
-    dateContainer.style.color = "white";
     dateContainer.innerHTML = date;
-}   
+} 
+
+window.onload = (event) => {
+    showDate();
+}
+
+function displayCalifornia() {
+    document.getElementById("California").classList.toggle("show");
+}
+
+function displayEastCoast() {
+    document.getElementById("EastCoast").classList.toggle("show");
+}
+
+function displayUK() {
+    document.getElementById("UK").classList.toggle("show");
+}
+
+function displayPoland() {
+    document.getElementById("Poland").classList.toggle("show");
+}
+
+function displaySA() {
+    document.getElementById("SA").classList.toggle("show");
+}
+
+function displayThailand() {
+    document.getElementById("Thailand").classList.toggle("show");
+}
+
+function displayGhana() {
+    document.getElementById("Ghana").classList.toggle("show");
+}
+
+function displayTunis() {
+    document.getElementById("Tunis").classList.toggle("show");
+}
+
+function displayRwanda() {
+    document.getElementById("Rwanda").classList.toggle("show");
+}
+
+function displayRomania() {
+    document.getElementById("Romania").classList.toggle("show");
+}
+
+// Remove all dropdowns whenever the user clicks outside of the map image 
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbutton')) {
+    const dropdowns = document.getElementsByClassName("dropdown-content");
+    for (let i = 0; i < dropdowns.length; i++) {
+      const openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+function slideRight() {
+  showSlides(slideIndex += 1);
+}
+
+function slideLeft() {
+  showSlides(slideIndex -= 1);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  const slides = document.getElementsByClassName("mySlides");
+  const dots = document.getElementsByClassName("dot");
+  if (n >= slides.length) {slideIndex = 0}    
+  if (n < 1) {slideIndex = slides.length - 1}
+  for (let i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";  
+  }
+  for (let i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex].style.display = "block";  
+  dots[slideIndex].className += " active";
+}
+
+window.onload = (event) => {
+    let slideIndex = 0;
+    showSlides(slideIndex + 1);
+}
