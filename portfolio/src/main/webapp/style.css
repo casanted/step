@@ -36,7 +36,7 @@ h2 {
 
 }
 
-p {
+p, label {
     color: white;
     text-align: left;
 }
@@ -99,6 +99,16 @@ li a:hover {
     text-align: center;
 }
 
+#form {
+    background-color: rgba(0, 0, 0, 0.918);
+    color: white; 
+}
+
+#comments-container {
+    background-color: rgba(0, 0, 0, 0.918);
+    color: white; 
+}
+
 .dropdown {
     display: inline-block;
     position: relative;
@@ -107,7 +117,7 @@ li a:hover {
 .dropdown-content {
     background-color: rgba(0, 0, 0, 0.836);
     display: none;
-    position: initial;
+    position: relative;
     overflow: auto;
     padding: 3%;
     width: 750px;

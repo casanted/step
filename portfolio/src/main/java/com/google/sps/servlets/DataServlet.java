@@ -14,6 +14,12 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,11 +30,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private List<String> comments;
+  class Comment {
+      private String name;
+      private String comment; 
+      private long timestamp;
+
+      public Comment(String name, String comment, long timestamp) {
+          this.name = name;
+          this.comment = comment; 
+          this.timestamp = timestamp;
+      }
+  }
+
+  private List<Comment> comments;
 
   @Override
   public void init() {
@@ -37,8 +55,25 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
-    String json = convertToJson(comments);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      String name = (String) entity.getProperty("name");
+      String text = (String) entity.getProperty("comment");
+      long timestamp = (long) entity.getProperty("timestamp");
+
+      Comment comment = new Comment(name, text, timestamp);
+      comments.add(comment);
+    }
+
+    int limit = getLimit(request);
+    List<Comment> toDisplay = comments.subList(0, limit); 
+
+    String json = convertToJson(toDisplay);
 
     // Send the JSON as the response
     response.setContentType("application/json;");
@@ -49,11 +84,22 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form. and add to comments array
     String comment = getParameter(request, "text-input", "");
-    comments.add(comment);
+    String name = getParameter(request, "name-input", "");
+    String limit = getParameter(request, "limit-input", "");
+    long timestamp = System.currentTimeMillis();
+
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("comment", comment);
+    commentEntity.setProperty("name", name);
+    commentEntity.setProperty("timestamp", timestamp);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+
     response.sendRedirect("/index.html");
   }
 
-  private String convertToJson(List<String> comments) {
+  private String convertToJson(List<Comment> comments) {
     Gson gson = new Gson();
     String json = gson.toJson(comments);
     return json;
@@ -69,5 +115,26 @@ public class DataServlet extends HttpServlet {
       return defaultValue;
     }
     return value;
+  }
+
+  private int getLimit(HttpServletRequest request) {
+    // Get the input from the form.
+    String limitString = request.getParameter("limit-input");
+
+    // Convert the input to an int.
+    int limit;
+    try {
+      limit = Integer.parseInt(limitString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + limitString);
+      return -1;
+    }
+
+    if (limit < 0) {
+      System.err.println("Limit is out of range: " + limitString);
+      return -1;
+    }
+
+    return limit;
   }
 }
