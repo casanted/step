@@ -99,14 +99,21 @@ li a:hover {
     text-align: center;
 }
 
-#form {
-    background-color: rgba(0, 0, 0, 0.918);
-    color: white; 
+form {
+    text-align: center;
+    padding-bottom: 5%;
+}
+
+textarea {
+    width: 800px;
 }
 
 #comments-container {
-    background-color: rgba(0, 0, 0, 0.918);
     color: white; 
+    list-style-type: none;
+    margin: 10px; 
+    padding-bottom: 5%; 
+
 }
 
 .dropdown {
@@ -228,4 +235,28 @@ img {vertical-align: middle;}
     height: 500px; 
     object-fit: cover;
     width: 1000px; 
+}
+
+.button1 {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button2 {
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }

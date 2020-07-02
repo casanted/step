@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
@@ -48,20 +47,22 @@ public class DataServlet extends HttpServlet {
 
   private List<Comment> comments;
 
-  @Override
-  public void init() {
-    comments = new ArrayList<>();
-  }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    comments = new ArrayList<>();
     
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
+    int numComments = getLimit(request);
+
     for (Entity entity : results.asIterable()) {
+      if (comments.size() == numComments) break;
+
       String name = (String) entity.getProperty("name");
       String text = (String) entity.getProperty("comment");
       long timestamp = (long) entity.getProperty("timestamp");
@@ -70,10 +71,7 @@ public class DataServlet extends HttpServlet {
       comments.add(comment);
     }
 
-    int limit = getLimit(request);
-    List<Comment> toDisplay = comments.subList(0, limit); 
-
-    String json = convertToJson(toDisplay);
+    String json = convertToJson(comments);
 
     // Send the JSON as the response
     response.setContentType("application/json;");
@@ -96,7 +94,7 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
-    response.sendRedirect("/index.html");
+    response.sendRedirect("/thanks.html");
   }
 
   private String convertToJson(List<Comment> comments) {
@@ -119,22 +117,22 @@ public class DataServlet extends HttpServlet {
 
   private int getLimit(HttpServletRequest request) {
     // Get the input from the form.
-    String limitString = request.getParameter("limit-input");
+    String numCommentsString = request.getParameter("limit-input");
 
     // Convert the input to an int.
-    int limit;
+    int numComments;
     try {
-      limit = Integer.parseInt(limitString);
+      numComments = Integer.parseInt(numCommentsString);
     } catch (NumberFormatException e) {
-      System.err.println("Could not convert to int: " + limitString);
+      System.err.println("Could not convert to int: " + numCommentsString);
       return -1;
     }
 
-    if (limit < 0) {
-      System.err.println("Limit is out of range: " + limitString);
+    if (numComments < 0) {
+      System.err.println("Limit is out of range: " + numCommentsString);
       return -1;
     }
 
-    return limit;
+    return numComments;
   }
 }
