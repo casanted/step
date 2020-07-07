@@ -104,6 +104,10 @@ form {
     padding-bottom: 5%;
 }
 
+form p {
+    text-align: center;
+}
+
 textarea {
     width: 800px;
 }
@@ -237,7 +241,7 @@ img {vertical-align: middle;}
     width: 1000px; 
 }
 
-.button1 {
+.submitbutton {
   background-color: #4CAF50;
   border: none;
   color: white;
@@ -249,7 +253,7 @@ img {vertical-align: middle;}
   cursor: pointer;
 }
 
-.button2 {
+.deletebutton {
   background-color: red;
   border: none;
   color: white;

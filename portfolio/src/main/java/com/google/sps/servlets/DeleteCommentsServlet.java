@@ -51,10 +51,4 @@ public class DeleteCommentsServlet extends HttpServlet {
 
     datastore.delete(keys);
   }
-
-  @Override 
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("");
-  }
 }
