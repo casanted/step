@@ -65,6 +65,7 @@ function displayRomania() {
 }
 
 // Remove all dropdowns when a user clicks outside the map image
+
 window.onclick = function(event) {
   if (!event.target.matches('.dropbutton')) {
     const dropdowns = document.getElementsByClassName("dropdown-content");
@@ -92,6 +93,7 @@ function currentSlide(n) {
 function showSlides(n) {
   const slides = document.getElementsByClassName("mySlides");
   const dots = document.getElementsByClassName("dot");
+
   slideIndex = n;
   if (n >= slides.length) {slideIndex = 0}    
   if (n < 0) {slideIndex = slides.length - 1}
