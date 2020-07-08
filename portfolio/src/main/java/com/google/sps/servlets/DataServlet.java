@@ -17,9 +17,11 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.QueryResultList;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,11 +55,6 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     comments = new ArrayList<>();
-    
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
 
     int numComments;
 
@@ -68,10 +65,13 @@ public class DataServlet extends HttpServlet {
     } else {
         numComments = maybeLimit.get();
     }
+    
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
-    for (Entity entity : results.asIterable()) {
-      if (comments.size() == numComments) break;
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
 
+    for (Entity entity : results.asIterable(FetchOptions.Builder.withLimit(numComments))) {
       String name = (String) entity.getProperty("name");
       String text = (String) entity.getProperty("comment");
       long timestamp = (long) entity.getProperty("timestamp");
@@ -128,11 +128,20 @@ public class DataServlet extends HttpServlet {
     // Get the input from the form.
     String numCommentsString = request.getParameter("limit-input");
 
-    // Convert the input to an int.
+    // Convert the input to an optional integer.
     int limit;
-    limit = Integer.parseInt(numCommentsString);
 
-    Optional<Integer> numComments = Optional.ofNullable(limit); 
+    try {
+      limit = Integer.parseInt(numCommentsString);
+    } catch (NumberFormatException e) {
+      return Optional.empty();
+    }
+
+    if (limit < 0) {
+      return Optional.empty();
+    }
+
+    Optional<Integer> numComments = Optional.of(limit); 
     
     return numComments;
   }
