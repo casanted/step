@@ -240,7 +240,7 @@ img {vertical-align: middle;}
     width: 1000px; 
 }
 
-.submitbutton {
+.submit-button {
   background-color: #4CAF50;
   border: none;
   color: white;
@@ -252,7 +252,7 @@ img {vertical-align: middle;}
   cursor: pointer;
 }
 
-.deletebutton {
+.delete-button {
   background-color: red;
   border: none;
   color: white;

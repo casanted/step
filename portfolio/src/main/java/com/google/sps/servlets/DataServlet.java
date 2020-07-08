@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Optional; 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -121,9 +122,13 @@ public class DataServlet extends HttpServlet {
 
     // Convert the input to an int.
     int numComments;
-    
     numComments = Integer.parseInt(numCommentsString);
-
-    return numComments;
+    Optional<Integer> limit = Optional.ofNullable(numComments); 
+    if (!limit.isPresent()) {
+        System.out.println("The limit input is not a valid number");
+        return 0;
+    } else {
+        return numComments;
+    }
   }
 }
