@@ -59,7 +59,15 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    int numComments = getLimit(request);
+    int numComments;
+
+    Optional<Integer> maybeLimit = getLimit(request); 
+    if (!maybeLimit.isPresent()) {
+        System.err.println("The limit input is not a valid number");
+        numComments = 0;
+    } else {
+        numComments = maybeLimit.get();
+    }
 
     for (Entity entity : results.asIterable()) {
       if (comments.size() == numComments) break;
@@ -116,19 +124,16 @@ public class DataServlet extends HttpServlet {
     return value;
   }
 
-  private int getLimit(HttpServletRequest request) {
+  private Optional<Integer> getLimit(HttpServletRequest request) {
     // Get the input from the form.
     String numCommentsString = request.getParameter("limit-input");
 
     // Convert the input to an int.
-    int numComments;
-    numComments = Integer.parseInt(numCommentsString);
-    Optional<Integer> limit = Optional.ofNullable(numComments); 
-    if (!limit.isPresent()) {
-        System.out.println("The limit input is not a valid number");
-        return 0;
-    } else {
-        return numComments;
-    }
+    int limit;
+    limit = Integer.parseInt(numCommentsString);
+
+    Optional<Integer> numComments = Optional.ofNullable(limit); 
+    
+    return numComments;
   }
 }
