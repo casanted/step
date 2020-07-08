@@ -17,19 +17,21 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.QueryResultList;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Optional; 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
@@ -48,20 +50,28 @@ public class DataServlet extends HttpServlet {
 
   private List<Comment> comments;
 
-  @Override
-  public void init() {
-    comments = new ArrayList<>();
-  }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    comments = new ArrayList<>();
+
+    int numComments;
+
+    Optional<Integer> maybeLimit = getLimit(request); 
+    if (!maybeLimit.isPresent()) {
+        System.err.println("The limit input is not a valid number");
+        numComments = 0;
+    } else {
+        numComments = maybeLimit.get();
+    }
     
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    for (Entity entity : results.asIterable()) {
+    for (Entity entity : results.asIterable(FetchOptions.Builder.withLimit(numComments))) {
       String name = (String) entity.getProperty("name");
       String text = (String) entity.getProperty("comment");
       long timestamp = (long) entity.getProperty("timestamp");
@@ -70,10 +80,7 @@ public class DataServlet extends HttpServlet {
       comments.add(comment);
     }
 
-    int limit = getLimit(request);
-    List<Comment> toDisplay = comments.subList(0, limit); 
-
-    String json = convertToJson(toDisplay);
+    String json = convertToJson(comments);
 
     // Send the JSON as the response
     response.setContentType("application/json;");
@@ -96,7 +103,7 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
-    response.sendRedirect("/index.html");
+    response.sendRedirect("/thanks.html");
   }
 
   private String convertToJson(List<Comment> comments) {
@@ -117,24 +124,25 @@ public class DataServlet extends HttpServlet {
     return value;
   }
 
-  private int getLimit(HttpServletRequest request) {
+  private Optional<Integer> getLimit(HttpServletRequest request) {
     // Get the input from the form.
-    String limitString = request.getParameter("limit-input");
+    String numCommentsString = request.getParameter("limit-input");
 
-    // Convert the input to an int.
+    // Convert the input to an optional integer.
     int limit;
+
     try {
-      limit = Integer.parseInt(limitString);
+      limit = Integer.parseInt(numCommentsString);
     } catch (NumberFormatException e) {
-      System.err.println("Could not convert to int: " + limitString);
-      return -1;
+      return Optional.empty();
     }
 
     if (limit < 0) {
-      System.err.println("Limit is out of range: " + limitString);
-      return -1;
+      return Optional.empty();
     }
 
-    return limit;
+    Optional<Integer> numComments = Optional.of(limit); 
+    
+    return numComments;
   }
 }

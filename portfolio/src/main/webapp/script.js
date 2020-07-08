@@ -112,18 +112,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
     showSlides(slideIndex);
 });
 
-function getMessage() {
-  fetch('/data').then(response => response.json()).then((comment) => {
-
-    const commentElement = document.getElementById('greeting');
-    commentElement.innerHTML = '';
-    commentElement.appendChild(
-        createListElement(comments[0]));
+function getComments() {
+  const limit = document.getElementById('input').value;
+  fetch('/data?limit-input=' + limit).then(response => response.json()).then((comments) => {
+    const commentElement = document.getElementById('comments-container');
+    commentElement.innerHTML = "";
+    comments.forEach((comment) => {
+      commentElement.appendChild(createCommentElement(comment));
+    })
   });
 }
 
-function createListElement(text) {
-  const liElement = document.createElement('li');
-  liElement.innerText = text;
-  return liElement;
+function createCommentElement(comment) {
+  const commElement = document.createElement('p');
+  commElement.className = 'comment';
+
+  const mainElement = document.createElement('span');
+  mainElement.innerText = comment.name + ": " + comment.comment;
+
+  commElement.appendChild(mainElement);
+  return commElement;
+}
+
+function deleteComments() {
+  fetch('/delete-data', {method: 'POST'}).then(() => getComments());
 }
