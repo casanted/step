@@ -158,7 +158,10 @@ img {vertical-align: middle;}
   text-align: center;
   align-content: center;
   max-width: 75%;
+<<<<<<< HEAD
   height: auto;
+=======
+>>>>>>> Add a TODO item on script.js file to signal placeholder
   margin: auto;
   position: relative;
 }
@@ -279,6 +282,7 @@ img {vertical-align: middle;}
     align-content: center;
 }
 
+<<<<<<< HEAD
 #login {
     display: none;
 }
@@ -298,4 +302,8 @@ img {vertical-align: middle;}
 .responsive-image {
     max-width: 100%;
     height: auto;
+}
+
+.login {
+    display: none;
 }

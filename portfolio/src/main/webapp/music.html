@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>About Me - Carolyn's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://www.gstatic.com/charts/loader.js"></script>
@@ -22,12 +22,12 @@
       <h2>Who I Listen To</h2>
       <p> This year, so far I have listened to 235 hours of music from 290 artists! Here is a visual representation of some of my most listened to artists.</p>
       <br>
-      <div id="chart-container" class="responsive-image"></div>
+      <div id="chart-container"></div>
 
       <h2>POLL</h2>
-
-      <div id="genre-container" class="responsive-image"></div>
-      <form action="/genre-data" method="POST" id="login">
+        <div id="genre-container"></div>
+    <h3>Vote</h3>
+    <form action="/genre-data" method="POST" class="login">
       <select name="genre">
         <option value="Afrobeats">Afrobeats</option>
         <option value="Country">Country</option>
@@ -39,9 +39,8 @@
         <option value="Rock">Rock</option>
       </select>
       <button>Submit</button>
-      </form>
+    </form>
 
-      <button id="login-container"></button>
-      </div>
+    </div>
   </body>
 </html>
