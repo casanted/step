@@ -142,6 +142,7 @@ google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 
 /** Creates a chart and adds it to the page. */
+/* TODO (Carolyn): Update this chart to my actual bubble chart */
 function drawChart() {
   const data = new google.visualization.DataTable();
   data.addColumn('string', 'Animal');
