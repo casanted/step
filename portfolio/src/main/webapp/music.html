@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>About Me - Carolyn's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+     <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="background.html">About Me</a></li>
+        <li><a href="professional.html">My Professional Page</a></li>
+        <li><a href="world.html">Travel the World With Me!</a></li>
+        <li><a href="music.html">Music Charts</a></li>
+        <li><a href="comments.html">Comments</a></li>
+        <p id="date"></p>
+      </ul>
+    <div id="content">
+      <h2>Who I Listen To</h2>
+      <p> This year, so far I have listened to 235 hours of music from 290 artists! Here is a visual representation of some of my most listened to artists.</p>
+      <br>
+      <div id="chart-container"></div>
+
+      <h2>POLL</h2>
+        <div id="genre-container"></div>
+    <h3>Vote</h3>
+    <form action="/genre-data" method="POST" class="login">
+      <select name="genre">
+        <option value="Afrobeats">Afrobeats</option>
+        <option value="Country">Country</option>
+        <option value="Pop">Pop</option>
+        <option value="RnB/Soul">RnB/Soul</option>
+        <option value="Hip-hop">Hip-hop</option>
+        <option value="Jazz">Jazz</option>
+        <option value="Gospel">Gospel</option>
+        <option value="Rock">Rock</option>
+      </select>
+      <button>Submit</button>
+    </form>
+
+    </div>
+  </body>
+</html>
