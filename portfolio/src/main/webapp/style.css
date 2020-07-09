@@ -282,7 +282,6 @@ img {vertical-align: middle;}
     align-content: center;
 }
 
-<<<<<<< HEAD
 #login {
     display: none;
 }
@@ -304,6 +303,11 @@ img {vertical-align: middle;}
     height: auto;
 }
 
-.login {
+
+#login {
     display: none;
+}
+
+#login-container {
+    color: white;
 }
