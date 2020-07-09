@@ -140,9 +140,9 @@ function deleteComments() {
 
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
-
+google.charts.setOnLoadCallback(drawGenreChart);
 /** Creates a chart and adds it to the page. */
-/* TODO (Carolyn): Update this chart to my actual bubble chart */
+
 function drawChart() {
   const data = new google.visualization.DataTable();
   data.addColumn('string', 'Artist');
@@ -174,3 +174,44 @@ function drawChart() {
       document.getElementById('chart-container'));
   chart.draw(data, options);
 }
+ 
+/** Fetches genre data and uses it to create a chart. */
+function drawGenreChart() {
+  fetch('/genre-data').then(response => response.json())
+  .then((genreVotes) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'genre');
+    data.addColumn('number', 'Votes');
+    Object.keys(genreVotes).forEach((genre) => {
+      data.addRow([genre, genreVotes[genre]]);
+    });
+ 
+    const options = {
+      'title': 'Favorite Genres',
+      'width':600,
+      'height':500
+    };
+ 
+    const chart = new google.visualization.BarChart(
+        document.getElementById('genre-container'));
+    chart.draw(data, options);
+  });
+}
+ 
+window.addEventListener('DOMContentLoaded', (event) => {
+    getLoginStatus();
+});
+ 
+function getLoginStatus() {
+  fetch('/authorize').then(response => response.json())
+  .then((loginMap) => {
+      if (loginMap.loginStatus == "loggedIn") {
+          console.log("Im in");
+          document.getElementById('login').style.display = "block";
+          document.getElementById('login-container').innerHTML = "<p>Logout <a href=\"" + loginMap.URL + "\">here</a>.</p>";
+      } else {
+          console.log("Im out");
+          document.getElementById('login-container').innerHTML = "<p>Login <a href=\"" + loginMap.URL + "\">here</a> to put your vote in!</p>";
+      }
+  });
+} 

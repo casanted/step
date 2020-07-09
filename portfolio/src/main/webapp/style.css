@@ -276,6 +276,10 @@ img {vertical-align: middle;}
     align-content: center;
 }
 
-.login {
+#login {
     display: none;
+}
+
+#login-container {
+    color: white;
 }
