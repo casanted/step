@@ -18,6 +18,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.HashMap;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,38 +27,37 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/authorize")
 public class VoteServlet extends HttpServlet {
 
-  String loginStatus;
+  private String loginStatus;
+  private String URL;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    HashMap<String, String> loginMap = new HashMap();
 
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
       loginStatus = "loggedIn";
-      String userEmail = userService.getCurrentUser().getEmail();
       String urlToRedirectToAfterUserLogsOut = "/music.html";
-      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+      URL = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
 
-      response.getWriter().println("<p>Hello " + userEmail + "!</p>");
-      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
     } else {
       loginStatus = "loggedOut";
       String urlToRedirectToAfterUserLogsIn = "/music.html";
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
-
-      response.getWriter().println("<p>Hello stranger.</p>");
-      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here to vote!</a>.</p>");
+      URL = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
     }
 
-    String json = convertToJson(loginStatus);
+    loginMap.put("loginStatus", loginStatus);
+    loginMap.put("URL", URL);
+
+    String json = convertToJson(loginMap);
 
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
 
-  private String convertToJson(String loginStatus) {
+  private String convertToJson(HashMap<String, String> loginMap) {
     Gson gson = new Gson();
-    String json = gson.toJson(loginStatus);
+    String json = gson.toJson(loginMap);
     return json;
   }
 }
