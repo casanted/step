@@ -159,9 +159,13 @@ img {vertical-align: middle;}
   align-content: center;
   max-width: 75%;
 <<<<<<< HEAD
+<<<<<<< HEAD
   height: auto;
 =======
 >>>>>>> Add a TODO item on script.js file to signal placeholder
+=======
+  height: auto;
+>>>>>>> Installing linters
   margin: auto;
   position: relative;
 }
@@ -301,13 +305,4 @@ img {vertical-align: middle;}
 .responsive-image {
     max-width: 100%;
     height: auto;
-}
-
-
-#login {
-    display: none;
-}
-
-#login-container {
-    color: white;
 }
