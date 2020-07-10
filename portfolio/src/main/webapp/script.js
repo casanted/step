@@ -208,10 +208,11 @@ function getLoginStatus() {
       if (loginMap.loginStatus == "loggedIn") {
           console.log("Im in");
           document.getElementById('login').style.display = "block";
-          document.getElementById('login-container').innerHTML = "<p>Logout <a href=\"" + loginMap.URL + "\">here</a>.</p>";
+          document.getElementById('login-container').innerHTML = "<a href=\"" + loginMap.URL + "\">Logout here!</a>";
       } else {
           console.log("Im out");
-          document.getElementById('login-container').innerHTML = "<p>Login <a href=\"" + loginMap.URL + "\">here</a> to put your vote in!</p>";
+          document.getElementById('login-container').innerHTML = "<a href=\"" + loginMap.URL + "\">Login here to put your vote in!</a>";
       }
   });
 } 
+

@@ -67,7 +67,7 @@ li {
   float: left;
 }
 
-li a {
+li a, button a {
   color: white;
   display: block;
   padding: 14px 16px;
@@ -110,6 +110,8 @@ form p {
 
 textarea {
     width: 800px;
+    max-width: 100%;
+    overflow: scroll;
 }
 
 #comments-container {
@@ -156,6 +158,7 @@ img {vertical-align: middle;}
   text-align: center;
   align-content: center;
   max-width: 75%;
+  height: auto;
   margin: auto;
   position: relative;
 }
@@ -281,5 +284,18 @@ img {vertical-align: middle;}
 }
 
 #login-container {
-    color: white;
+  background-color: rgba(0, 0, 255, 0.644);
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.responsive-image {
+    max-width: 100%;
+    height: auto;
 }
