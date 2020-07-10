@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel The World With Me! - Carolyn's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
@@ -27,7 +28,7 @@
           <br>
           <br>
       </p>
-      <img src="images/map1.jpg" alt="Global Map" usemap="#workmap" width="1162" height="675"/>
+      <img src="images/map1.jpg" alt="Global Map" usemap="#workmap" width="1162" height="675" class="responsive-image"/>
       <map name="workmap">
           <area shape="rect" coords="97, 118, 140, 180" onclick="displayCalifornia()" class="dropbutton">
           <area shape="rect" coords="244, 118, 285, 175" onclick="displayEastCoast()" class="dropbutton">
@@ -107,5 +108,7 @@
              </div>
           </div>
     </div>
+    <script type=”text/javascript” src=https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js></script>
+    <script type=”text/javascript” $('img[usemap]').rwdImageMaps(); ></script>
   </body>
 </html>
