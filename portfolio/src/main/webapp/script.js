@@ -206,11 +206,9 @@ function getLoginStatus() {
   fetch('/authorize').then(response => response.json())
   .then((loginMap) => {
       if (loginMap.loginStatus == "loggedIn") {
-          console.log("Im in");
           document.getElementById('login').style.display = "block";
           document.getElementById('login-container').innerHTML = "<a href=\"" + loginMap.URL + "\">Logout here!</a>";
       } else {
-          console.log("Im out");
           document.getElementById('login-container').innerHTML = "<a href=\"" + loginMap.URL + "\">Login here to put your vote in!</a>";
       }
   });

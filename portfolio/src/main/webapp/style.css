@@ -274,9 +274,11 @@ img {vertical-align: middle;}
   cursor: pointer;
 }
 
-#chart-container {
+#chart-container, #genre-container {
     text-align: center; 
     align-content: center;
+    max-width: 100%;
+    height: auto;
 }
 
 #login {
@@ -284,7 +286,7 @@ img {vertical-align: middle;}
 }
 
 #login-container {
-  background-color: rgba(0, 0, 255, 0.644);
+  background-color: rgba(95, 95, 235, 0.644);
   border: none;
   color: white;
   padding: 15px 32px;
