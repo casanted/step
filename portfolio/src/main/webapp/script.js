@@ -65,6 +65,7 @@ function displayRomania() {
 }
 
 // Remove all dropdowns when a user clicks outside the map image
+
 window.onclick = function(event) {
   if (!event.target.matches('.dropbutton')) {
     const dropdowns = document.getElementsByClassName("dropdown-content");
@@ -92,6 +93,7 @@ function currentSlide(n) {
 function showSlides(n) {
   const slides = document.getElementsByClassName("mySlides");
   const dots = document.getElementsByClassName("dot");
+
   slideIndex = n;
   if (n >= slides.length) {slideIndex = 0}    
   if (n < 0) {slideIndex = slides.length - 1}
@@ -135,3 +137,80 @@ function createCommentElement(comment) {
 function deleteComments() {
   fetch('/delete-data', {method: 'POST'}).then(() => getComments());
 }
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawGenreChart);
+/** Creates a chart and adds it to the page. */
+function drawChart() {
+  const data = new google.visualization.DataTable();
+  data.addColumn('string', 'Artist');
+  data.addColumn('number', 'Hours Played');
+  data.addColumn('number', 'Number of songs in my top 100 most played songs');
+  data.addColumn('string', 'Genre');
+        data.addRows([
+          ['Beyonce', 28, 9, 'Pop'],
+          ['Burna Boy', 11, 11, 'Afrobeats'],
+          ['Joe Mettle', 7, 1, 'Gospel'],
+          ['Joyful Way Incorporated', 6, 2, 'Gospel'],
+          ['Joeboy', 5, 4, 'Worldwide'],
+          ['Fireboy DML', 4, 3, 'Worldwide'],
+          ['Chloe x Halle', 4, 0, 'R&B/Soul'],
+          ['Sauti Sol', 11, 3, 'Afro-Pop']
+        ]);
+
+  const options = {
+    'title': 'My Most Played Artists',
+    'hAxis': {'title': 'Hours Played'},
+    'vAxis': {'title': 'Number of songs on my top 100 most played songs'},
+    'width': 900,
+    'height': 500,
+    'bubble': {'textStyle': {'fontSize': 11}}, 
+    'animation': {'startup': 'true', 'duration': 6000}
+  };
+
+  const chart = new google.visualization.BubbleChart(
+      document.getElementById('chart-container'));
+  chart.draw(data, options);
+}
+ 
+/** Fetches genre data and uses it to create a chart. */
+function drawGenreChart() {
+  fetch('/genre-data').then(response => response.json())
+  .then((genreVotes) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'genre');
+    data.addColumn('number', 'Votes');
+    Object.keys(genreVotes).forEach((genre) => {
+      data.addRow([genre, genreVotes[genre]]);
+    });
+ 
+    const options = {
+      'title': 'Favorite Genres',
+      'width': 600,
+      'height': 500
+    };
+ 
+    const chart = new google.visualization.BarChart(
+        document.getElementById('genre-container'));
+    chart.draw(data, options);
+  });
+}
+ 
+window.addEventListener('DOMContentLoaded', (event) => {
+    getLoginStatus();
+});
+ 
+function getLoginStatus() {
+  fetch('/authorize').then(response => response.json())
+  .then((loginMap) => {
+      if (loginMap.loginStatus == "loggedIn") {
+          console.log("Im in");
+          document.getElementById('login').style.display = "block";
+          document.getElementById('login-container').innerHTML = "<p>Logout <a href=\"" + loginMap.url + "\">here</a>.</p>";
+      } else {
+          console.log("Im out");
+          document.getElementById('login-container').innerHTML = "<p>Login <a href=\"" + loginMap.url + "\">here</a> to put your vote in!</p>";
+      }
+  });
+} 
