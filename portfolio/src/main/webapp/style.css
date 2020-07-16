@@ -139,8 +139,13 @@ textarea {
 
 .textwrap {
     float: right;
-    margin-bottom: 5%;
-    margin-left: 5%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+    object-fit: cover;
+}
+
+#background-info {
+    padding-bottom: 10%;
 }
 
 .mySlides {display: none;}
@@ -148,7 +153,9 @@ img {vertical-align: middle;}
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 1000px;
+  text-align: center;
+  align-content: center;
+  max-width: 75%;
   margin: auto;
   position: relative;
 }
@@ -237,7 +244,7 @@ img {vertical-align: middle;}
 .cropped {
     height: 500px; 
     object-fit: cover;
-    width: 1000px; 
+    width: 100%; 
 }
 
 .submit-button {
@@ -262,4 +269,17 @@ img {vertical-align: middle;}
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+}
+
+#chart-container {
+    text-align: center; 
+    align-content: center;
+}
+
+#login {
+    display: none;
+}
+
+#login-container {
+    color: white;
 }
