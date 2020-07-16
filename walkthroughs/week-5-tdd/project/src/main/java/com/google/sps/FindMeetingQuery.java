@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.ListIterator;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Set;
 
 public final class FindMeetingQuery {
@@ -50,9 +51,35 @@ public final class FindMeetingQuery {
     }
 
     ArrayList<TimeRange> copyOfGoodTimes = new ArrayList<TimeRange>(potentialTimes);
+    HashMap<TimeRange, Integer> someOptionals = new HashMap<>();
  
     for (TimeRange badTime: badTimes) {
-      fixConflicts(potentialTimes, badTime);
+      boolean accounted = false;
+      ListIterator<TimeRange> litr = potentialTimes.listIterator();
+      while (litr.hasNext()) {
+        TimeRange time = litr.next();
+        if (badTime.overlaps(time)) {
+          litr.remove();
+          someOptionals.put(time, 1);
+          if (time.start() < badTime.start()) {
+            TimeRange frontBlock = TimeRange.fromStartEnd(time.start(), badTime.start(), false);
+            litr.add(frontBlock);
+          }
+          if (badTime.end() < time.end()) {
+            TimeRange backBlock = TimeRange.fromStartEnd(badTime.end(), time.end(), false);
+            litr.add(backBlock);
+          }
+        }
+        accounted = true; 
+      }
+      if (!accounted) {
+          for (TimeRange deletedTime: someOptionals.keySet()) {
+              if (badTime.overlaps(deletedTime)) {
+                  int count = someOptionals.get(deletedTime);
+                  someOptionals.replace(deletedTime, count + 1);
+              }
+          }
+      }
     }
 
     if (meetingGuests.isEmpty()) {
@@ -69,6 +96,17 @@ public final class FindMeetingQuery {
 
     if (potentialTimes.isEmpty() && !badTimes.isEmpty()) {
       potentialTimes = copyOfGoodTimes;
+      ArrayList<TimeRange> leastClashes = new ArrayList<>();
+      if (!someOptionals.isEmpty() && !meetingGuests.isEmpty()) {
+          Collection<Integer> values = someOptionals.values();
+          int min = Collections.min(values); 
+          for (TimeRange time: someOptionals.keySet()) {
+              if (someOptionals.get(time) == min) {
+                  leastClashes.add(time);
+              }
+          }
+      }
+      if (!leastClashes.isEmpty()) potentialTimes = leastClashes;
     }
 
     times = potentialTimes;    
