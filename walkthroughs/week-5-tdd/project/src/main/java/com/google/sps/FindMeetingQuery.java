@@ -23,18 +23,23 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Set;
 
+/**
+* The FindingMeetingQuery is a container class that is able to find available meeting times for a particualr requested meeting
+*/
+
 public final class FindMeetingQuery {
 
-  // The following function returns a Collection<TimeRange> of all possible times for a meeting to occur given 
-  // a Collection<Event> of all known events for that day, and a MeetingRequest. Each event has a title, list of guests attending
-  // this event, and a TimeRange for the event(which includes the start potentialTime and duration of the event). Each MeetingRequest 
-  // has a title, duration requested for the meeting, and a list of guests invited to this meeting. This funtion performs the task by 
-  // starting with the whole day, and then continuosly removing blocks of potentialTime that clash with any other known event, if there is a
-  // guest for the MeetingRequest who has to attend this event.
+  /**
+  * Finds potential meeting times by first starting with the whole day as a postential time, and then removing blocks of 
+  * times where another event with a common guest is ongoing
+  * 
+  * @param  events  a Collection<Event> each with an event title, list of guests and Timerange of event
+  * @param  request a MeetingRequest with lists of mandatory and otpional guests, as well as duration for the meeting
+  * @return      Collection<TimeRange> of possible times the requested meeting could occur
+  */  
 
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     ArrayList<TimeRange> potentialMeetingTimes = new ArrayList<>();
-    // Add the whole day to potential meeting times
     potentialMeetingTimes.add(TimeRange.WHOLE_DAY);
 
     Collection<String> mandatoryMeetingGuests = request.getAttendees();
@@ -46,51 +51,49 @@ public final class FindMeetingQuery {
     
     // Check if there are any meeting guests in the event guest list, and if there are, remove the block of time 
     // for the event from the potential meeting times 
-    for (Event event: events) {
+    for (Event event : events) {
       TimeRange eventTime = event.getWhen();
       Set<String> eventGuests = event.getAttendees();
-      // if there are any optional guests attending this event, add the time to the list of unavailable times for optional guests 
+      for (String mandatoryMeetingGuest: mandatoryMeetingGuests) {
+        if (eventGuests.contains(mandatoryMeetingGuest)) {
+          removeConflictTimeFromPotentialTimes(potentialMeetingTimes, eventTime);
+        }
+      }
       for (String optionalMeetingGuest: optionalMeetingGuests) {
         if (eventGuests.contains(optionalMeetingGuest)) {
           unavailableTimesForOptionalGuests.add(eventTime);
         }
       }
-      for (String mandatoryMeetingGuest: mandatoryMeetingGuests) {
-        if (eventGuests.contains(mandatoryMeetingGuest)) {
-          fixSchedulingConflicts(potentialMeetingTimes, eventTime);
-        }
-      }
     }
     
-    // Make a copy of good meeting times we have at this point for mandatory guests as a backup, in case scheduling is impossible with optional guests
-    ArrayList<TimeRange> copyOfGoodMeetingTimes = new ArrayList<TimeRange>(potentialMeetingTimes);
+    ArrayList<TimeRange> bestPotentialTimesSoFar = new ArrayList<TimeRange>(potentialMeetingTimes);
     // Make a hashmap of all eliminated times and frequency of elimination, to optimize scheduling with the most optional guests 
     HashMap<TimeRange, Integer> eliminatedTimes = new HashMap<>();
  
     for (TimeRange unavailableTime: unavailableTimesForOptionalGuests) {
-      // boolean to check if an unavailable time has already been deleted
-      boolean timeAccounted = false;
-      // create a list iterator for potential meeting times so it can be modified while iterating 
-      ListIterator<TimeRange> litr = potentialMeetingTimes.listIterator();
-      while (litr.hasNext()) {
-        TimeRange potentialTime = litr.next();
+      boolean unavailableTimeAlreadyDeleted = false;
+      ListIterator<TimeRange> potentialTimesIterator = potentialMeetingTimes.listIterator();
+      while (potentialTimesIterator.hasNext()) {
+        TimeRange potentialTime = potentialTimesIterator.next();
         if (unavailableTime.overlaps(potentialTime)) {
-          litr.remove();
-          // put unavailable time in eliminated times hasmap and assign frequency of 1 first time it is deleted
+          potentialTimesIterator.remove();
+          unavailableTimeAlreadyDeleted = true;
+          // Put unavailable time in eliminated times hashmap and assign frequency of 1 first time it is deleted
           eliminatedTimes.put(potentialTime, 1);
           if (potentialTime.start() < unavailableTime.start()) {
-            TimeRange frontBlock = TimeRange.fromStartEnd(potentialTime.start(), unavailableTime.start(), false);
-            litr.add(frontBlock);
+          // If there is time available before the start of the conflict time, add to the list of potential times 
+            TimeRange timeBeforeConflict = TimeRange.fromStartEnd(potentialTime.start(), unavailableTime.start(), false);
+            potentialTimesIterator.add(timeBeforeConflict);
           }
+          // If there is time available after the end of the conflict time, add to the list of potential times 
           if (unavailableTime.end() < potentialTime.end()) {
-            TimeRange backBlock = TimeRange.fromStartEnd(unavailableTime.end(), potentialTime.end(), false);
-            litr.add(backBlock);
+            TimeRange timeAfterConflict = TimeRange.fromStartEnd(unavailableTime.end(), potentialTime.end(), false);
+            potentialTimesIterator.add(timeAfterConflict);
           }
-        }
-        timeAccounted = true; 
+        } 
       }
-      // if the uunavailable time is not deleted, check if it has previously been deleted and inrease frequency by 1
-      if (!timeAccounted) {
+      // If the uunavailable time is not deleted, check if it has previously been deleted and increase frequency by 1
+      if (!unavailableTimeAlreadyDeleted) {
           for (TimeRange deletedTime: eliminatedTimes.keySet()) {
               if (unavailableTime.overlaps(deletedTime)) {
                   int count = eliminatedTimes.get(deletedTime);
@@ -100,30 +103,30 @@ public final class FindMeetingQuery {
       }
     }
     
-    // if there are no mandatory meeting guests, then we want to schedule only around optional guests
+    // If there are no mandatory meeting guests, then we want to schedule only around optional guests
     if (mandatoryMeetingGuests.isEmpty()) {
-      copyOfGoodMeetingTimes = potentialMeetingTimes;
+      bestPotentialTimesSoFar = potentialMeetingTimes;
     }
 
-    // if there is potential meeting time has a shorter duration than the meeting request, then delete that potential time because it doesn't work
-    ListIterator<TimeRange> litr = potentialMeetingTimes.listIterator();
-    while (litr.hasNext()) {
-      TimeRange potentialTime = litr.next(); 
+    // If there is potential meeting time has a shorter duration than the meeting request, then delete that potential time because it doesn't work
+    ListIterator<TimeRange> potentialTimesIterator = potentialMeetingTimes.listIterator();
+    while (potentialTimesIterator.hasNext()) {
+      TimeRange potentialTime = potentialTimesIterator.next(); 
       if (meetingDuration > potentialTime.duration()) {
-        litr.remove();
+        potentialTimesIterator.remove();
       }
     } 
 
-    // if it was impossible to find a time to work for all mandatory guests and all optional guests, then get the optimized times where the highest
+    // If it was impossible to find a time to work for all mandatory guests and all optional guests, then get the optimized times where the highest
     // number of optional guests can attend
     if (potentialMeetingTimes.isEmpty() && !unavailableTimesForOptionalGuests.isEmpty()) {
-      potentialMeetingTimes = copyOfGoodMeetingTimes;
-      // array to keep timeranges where the most optional guests can attend
+      potentialMeetingTimes = bestPotentialTimesSoFar;
+      // Array to keep timeranges where the most optional guests can attend
       ArrayList<TimeRange> timesWithLeastClashes = new ArrayList<>();
       if (!eliminatedTimes.isEmpty() && !mandatoryMeetingGuests.isEmpty()) {
-          // gets all frequencies of the deleted times
+          // Gets all frequencies of the deleted times
           Collection<Integer> counts = eliminatedTimes.values();
-          // pick the minimum frequency, because that means this is the time where the least number of optional guests have clashes 
+          // Pick the minimum frequency, because that means this is the time where the least number of optional guests have clashes 
           int min = Collections.min(counts); 
           for (TimeRange potentialTime: eliminatedTimes.keySet()) {
               if (eliminatedTimes.get(potentialTime) == min) {
@@ -131,7 +134,7 @@ public final class FindMeetingQuery {
               }
           }
       }
-      // if tyhere is an optimized solution, then use those times 
+      // If there is an optimized solution, then use those times 
       if (!timesWithLeastClashes.isEmpty()) potentialMeetingTimes = timesWithLeastClashes;
     }
 
@@ -139,26 +142,28 @@ public final class FindMeetingQuery {
     return finalPossibleTimes;
   }
 
-  // Given an ArrayList of potential meeting times and a clashing time, this function returns times around this clash time, eliminating 
-  // the conflict
 
-  public void fixSchedulingConflicts(ArrayList<TimeRange> potentialMeetingTimes, TimeRange clashTime) {
-    // creates a modifiable iterable for the list of potential meeting times 
-    ListIterator<TimeRange> litr = potentialMeetingTimes.listIterator();
-    while (litr.hasNext()) {
-      TimeRange potentialTime = litr.next();
-      if (clashTime.overlaps(potentialTime)) {
-        //  remove any time that ovrlaps with the clash time 
-        litr.remove();
-        if (potentialTime.start() < clashTime.start()) {
-        // if there is time available before the start of the conflict time, add to the list of potential times 
-          TimeRange frontBlock = TimeRange.fromStartEnd(potentialTime.start(), clashTime.start(), false);
-          litr.add(frontBlock);
+  /**
+  * Resolves conflicts by removing unavailable times from potential times, and adding times before and after conflict
+  * 
+  * @param  potentialMeetingTimes  a Collection of all known potential meeting times 
+  * @param  conflictingTime a TimeRange where another event is going on 
+  */  
+
+  public void removeConflictTimeFromPotentialTimes(ArrayList<TimeRange> potentialMeetingTimes, TimeRange conflictingTime) {
+    ListIterator<TimeRange> potentialTimesIterator = potentialMeetingTimes.listIterator();
+    while (potentialTimesIterator.hasNext()) {
+      TimeRange potentialTime = potentialTimesIterator.next();
+      if (conflictingTime.overlaps(potentialTime)) {
+        //  Remove any time that overlaps with the clash time 
+        potentialTimesIterator.remove();
+        if (potentialTime.start() < conflictingTime.start()) {
+          TimeRange timeBeforeConflict = TimeRange.fromStartEnd(potentialTime.start(), conflictingTime.start(), false);
+          potentialTimesIterator.add(timeBeforeConflict);
         }
-        // if there is time available after the end of the conflict time, add to the list of potential times 
-        if (clashTime.end() < potentialTime.end()) {
-          TimeRange backBlock = TimeRange.fromStartEnd(clashTime.end(), potentialTime.end(), false);
-          litr.add(backBlock);
+        if (conflictingTime.end() < potentialTime.end()) {
+          TimeRange timeAfterConflict = TimeRange.fromStartEnd(conflictingTime.end(), potentialTime.end(), false);
+          potentialTimesIterator.add(timeAfterConflict);
         }
       }
     }

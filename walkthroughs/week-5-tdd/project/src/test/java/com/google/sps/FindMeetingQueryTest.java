@@ -124,10 +124,11 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void everyAttendeeIsConsideredWithOptional1() {
+  public void everyAttendeeIsConsideredIncludingOptionalGuestWithNoFreeTime() {
     // Have each person have different events. We should see two options because each person has
     // split the restricted times.
     //
+    //           |--------------C--------------|
     // Events  :       |--A--|     |--B--|
     // Day     : |-----------------------------|
     // Options : |--1--|     |--2--|     |--3--|
@@ -154,11 +155,11 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void everyAttendeeIsConsideredWithOptional2() {
+  public void everyAttendeeIsConsideredIncludingOtionalGuestWithFreeTime() {
     // Have each person have different events. We should see two options because each person has
     // split the restricted times.
     //
-    // Events  :       |--A--|     |--B--|
+    // Events  :       |--A--|--C--|--B--|
     // Day     : |-----------------------------|
     // Options : |--1--|     |--2--|     |--3--|
 
@@ -285,11 +286,11 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void justEnoughRoomWithOptional() {
+  public void justEnoughRoomWithOptionalGuest() {
     // Have one person, but make it so that there is just enough room at one point in the day to
-    // have the meeting.
+    // have the meeting, but with an optional guest busy at that time.
     //
-    // Events  : |--A--|     |----A----|
+    // Events  : |--A--|--B--|----A----|
     // Day     : |---------------------|
     // Options :       |-----|
 
@@ -406,13 +407,12 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void optionalCodeTest() {
-    // Have each person have different events. We should see two options because each person has
-    // split the restricted times.
-    //
-    // Events  :       |--A--|     |--B--|
+  public void considerMaximumNumberOfOptionalGuestsPossible() {
+    // If there is an option to have some oof the optional guests attending, then we should get those options
+    //           |--------------C--------------|
+    // Events  :       |--A--|--D--|--B--|
     // Day     : |-----------------------------|
-    // Options : |--1--|     |--2--|     |--3--|
+    // Options : |--1--|                 |--2--|
 
     Collection<Event> events = Arrays.asList(
         new Event("Event 1", TimeRange.fromStartDuration(TIME_0800AM, DURATION_30_MINUTES),
