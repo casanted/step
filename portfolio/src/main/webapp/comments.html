@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Comments - Carolyn's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+     <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="background.html">About Me</a></li>
+        <li><a href="professional.html">My Professional Page</a></li>
+        <li><a href="world.html">Travel the World With Me!</a></li>
+        <li><a href="music.html">Music Charts</a></li>
+        <li><a href="comments.html">Comments</a></li>
+        <p id="date"></p>
+      </ul>
+    <div id="content">
+        <h2>Comments</h2>
+
+        <p> Leave your thoughts on anything! Tell me about your travel experiences, or what you think of mine, or about your favourite food, or what you think of my site!</p>
+        <br>
+
+        <form action="/data" method="POST">
+            <p>Put in your name here:</p>
+            <textarea name="name-input"></textarea>
+            <br>
+            <p>Leave your comment here:</p>
+            <textarea name="text-input"></textarea>
+            <br>
+            <input type="submit" class="submit-button">
+        </form>
+
+        <label for="limit">How many comments would you like to see :</label>
+        <select id="input" onchange="getComments()">
+            <option value="0">0
+            <option value="1">1
+            <option value="2">2
+            <option value="3">3
+            <option value="4">4
+            <option value="5">5
+            <option value="10">10
+            <option value="15">15
+        </select>
+        <div id="comments-container"></div>
+        <button class="delete-button" onclick="deleteComments()">Delete all comments</button>
+    </div>
+  </body>
+</html>

@@ -22,21 +22,23 @@ html {
 }
 
 h1 {
-    text-align: center;
-    font-size: 130px;
-    color: white;
-    padding-top: 12%;
     animation: animate 3s;
+    color: white;
+    font-size: 130px;
+    padding-top: 12%;
+    text-align: center;
 }
 
 h2 {
-    font-size: 70px;
     color: white;
+    font-size: 70px;
+    text-align: center;
+
 }
 
-p {
-    text-align: left;
+p, label {
     color: white;
+    text-align: left;
 }
 
 p a {
@@ -44,18 +46,18 @@ p a {
 }
 
 h3 {
-    font-size: 30px;
     color: white;
     text-align: left;
+    font-size: 30px;
     padding-top: 1%;
 }
 
 ul {
+  background-color:black; 
   list-style-type: none;
   margin: 0;
-  padding: 0;
   overflow: hidden;
-  background-color:black; 
+  padding: 0;
   position: fixed;
   top: 0;
   width: 100%;
@@ -66,41 +68,68 @@ li {
 }
 
 li a {
-  display: block;
   color: white;
-  text-align: center;
+  display: block;
   padding: 14px 16px;
+  text-align: center;
   text-decoration: none;
 }
 
 li a:hover {
   background-color: white;
   color: black;
-  }
+}
+
+#date {
+    color: white; 
+    float: right; 
+    padding-right: 2%;
+}
 
 #content {
-    background-color: rgba(0, 0, 0, 0.918);
     align-content: center;
-    margin-left:7%;
+    background-color: rgba(0, 0, 0, 0.918);
+    background-position: fixed;
+    height: 100%;;
+    margin-left: 7%;
     margin-right: 7%; 
     margin-top: 2%;
-    height: 100%;
-    background-position: fixed;
-    text-align: center;
     padding: 3%;
     padding-top: 1.5%;
+    text-align: center;
+}
+
+form {
+    text-align: center;
+    padding-bottom: 5%;
+}
+
+form p {
+    text-align: center;
+}
+
+textarea {
+    width: 800px;
+}
+
+#comments-container {
+    color: white; 
+    list-style-type: none;
+    margin: 10px; 
+    padding-bottom: 5%; 
+
 }
 
 .dropdown {
-    position: relative;
     display: inline-block;
+    position: relative;
 }
 
 .dropdown-content {
-    position: initial;
-    overflow: auto;
-    display: none;
     background-color: rgba(0, 0, 0, 0.836);
+    display: none;
+    position: relative;
+    overflow: auto;
     padding: 3%;
     width: 750px;
     z-index: 1;
@@ -110,8 +139,13 @@ li a:hover {
 
 .textwrap {
     float: right;
-    margin-bottom: 5%;
-    margin-left: 5%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+    object-fit: cover;
+}
+
+#background-info {
+    padding-bottom: 10%;
 }
 
 .mySlides {display: none;}
@@ -119,31 +153,33 @@ img {vertical-align: middle;}
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 1000px;
-  position: relative;
+  text-align: center;
+  align-content: center;
+  max-width: 75%;
   margin: auto;
+  position: relative;
 }
 
 /* Next & previous buttons */
 .prev, .next {
+  border-radius: 0 3px 3px 0;
+  color: white;
   cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: -22px;
+  padding: 16px;
   position: absolute;
   top: 50%;
-  width: auto;
-  padding: 16px;
-  margin-top: -22px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
   transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
   user-select: none;
+  width: auto;
 }
 
 /* Position the "next button" to the right */
 .next {
-  right: 0;
   border-radius: 3px 0 0 3px;
+  right: 0;
 }
 
 .prev {
@@ -157,38 +193,42 @@ img {vertical-align: middle;}
 
 /* Caption text */
 .text {
+  bottom: 8px;
   color: white;
   font-size: 20px;
   padding: 8px 12px;
   position: absolute;
-  bottom: 8px;
-  width: 100%;
   text-align: center;
+  width: 100%;
 }
 
 
 /* The dots/bullets/indicators */
 .dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
   background-color: #bbb;
   border-radius: 50%;
+  cursor: pointer;
   display: inline-block;
+  height: 15px;
+  margin: 0 2px;
   transition: background-color 0.6s ease;
+  width: 15px;
 }
 
 .active, .dot:hover {
   background-color: #717171;
 }
 
+#dots {
+    text-align: center
+}
+
 /* Fading animation */
 .fade {
+  animation-duration: 1.5s;
+  animation-name: fade;
   -webkit-animation-name: fade;
   -webkit-animation-duration: 1.5s;
-  animation-name: fade;
-  animation-duration: 1.5s;
 }
 
 @-webkit-keyframes fade {
@@ -202,7 +242,44 @@ img {vertical-align: middle;}
 }
 
 .cropped {
-    width: 500px; /* width of container */
-    height: 500px; /* height of container */
+    height: 500px; 
     object-fit: cover;
+    width: 100%; 
+}
+
+.submit-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.delete-button {
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+#chart-container {
+    text-align: center; 
+    align-content: center;
+}
+
+#login {
+    display: none;
+}
+
+#login-container {
+    color: white;
 }
